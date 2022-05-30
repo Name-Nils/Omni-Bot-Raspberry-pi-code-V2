@@ -9,7 +9,8 @@ class Comm(WebSocket):
     def handle(self):
         global receive_data, send_queue
 
-        receive_data.append(self.data)
+        if (self.data != " "):
+            receive_data.append(self.data)
         
         for i in range(len(send_queue)):
             if i > max_data_per_send: break

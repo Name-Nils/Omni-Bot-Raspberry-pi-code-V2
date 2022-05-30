@@ -23,5 +23,16 @@ def main():
             server.send_queue.append("lidar " +  lidar.get_data().string())
             t = time.time()
 
+    if (len(server.receive_data) > 0):
+        data = server.receive_data.pop() 
+        if (parsing.check("move", data)):
+            a = parsing.command("A", " ", data)
+            s = parsing.command("S", " ", data)
+            r = parsing.command("R", " ", data)
+            # send this to the serial port
+        elif (parsing.check("cam", data)):
+            a = parsing.command("A", " ", data)
+
+
 while True:
     main()
