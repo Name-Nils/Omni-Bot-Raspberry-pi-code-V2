@@ -11,6 +11,9 @@ ser = serial.Serial(
 )
 
 
+def send(data):
+    ser.write((str(data) + "\n").encode("utf-8"))
+
 last_string = ""
 def move_str(string_):
     global last_string

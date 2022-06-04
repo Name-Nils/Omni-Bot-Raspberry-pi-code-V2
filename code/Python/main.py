@@ -2,8 +2,9 @@ import server
 import move
 import camera
 import lidar
-import parsing
+import helper
 
+alphabetical = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNMqwertyuiopåasdfghjklöäzxcvbnm  "
 
 camera_stream = True
 lidar_stream = True
@@ -15,23 +16,28 @@ t = time.time()
 def main():
     if (camera_stream):
         if len(server.send_queue) < 3:
-            server.send_queue.append("img " + camera.get_base64())
+            server.send_queue.append("cam " + camera.get_base64())
+        
     
     global t
     if (lidar_stream):
         if time.time() - t > 0.5:
-            server.send_queue.append("lidar " +  lidar.get_data().string())
+            lidar_data = lidar.get_data()
+            lidar_data.cartesian()
+            server.send_queue.append("lidar " +  lidar_data.string())
             t = time.time()
 
     if (len(server.receive_data) > 0):
         data = server.receive_data.pop() 
-        if (parsing.check("move", data)):
-            a = parsing.command("A", " ", data)
-            s = parsing.command("S", " ", data)
-            r = parsing.command("R", " ", data)
-            # send this to the serial port
-        elif (parsing.check("cam", data)):
-            a = parsing.command("A", " ", data)
+        if (helper.check("move", data)):
+            a = helper.command("A", alphabetical, data)
+            s = helper.command("S", alphabetical, data)
+            r = helper.command("R", alphabetical, data)
+            move.send("A" + str(a) + "S" + str(s) + "R" + str(r))
+        elif (helper.check("cam", data)):
+            a = helper.command("A", "", data)
+            camera.tilt(float(a))
+
 
 
 while True:

@@ -1,5 +1,4 @@
 import base64
-from tkinter import E
 from picamera import PiCamera
 import RPi.GPIO as GPIO
 
@@ -8,14 +7,23 @@ cam = PiCamera()
 cam.resolution = (250, 150)
 cam.framerate = 80
 
-servoPIN = 2
+servo_pin = 2
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(servoPIN, GPIO.OUT)
+GPIO.setup(servo_pin, GPIO.OUT)
 
-servo = GPIO.PWM(servoPIN, 50)
+servo = GPIO.PWM(servo_pin, 50)
 servo.start(7) # origin angle should be around 90 deg to the ground
 
-def tilt(angle):
+angle = 90
+def tilt(delta_angle):
+    global angle
+    
+    if angle > 180:
+        angle = 180
+    elif angle < 0:
+        angle = 0
+
+    angle += delta_angle
     servo.ChangeDutyCycle((angle/180 * 10) + 2)
 
 def get_base64():
