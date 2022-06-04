@@ -24,6 +24,7 @@ def main():
         if time.time() - t > 0.5:
             lidar_data = lidar.get_data()
             lidar_data.cartesian()
+            lidar_data.noise_point_grouping()
             server.send_queue.append("lidar " +  lidar_data.string())
             t = time.time()
 

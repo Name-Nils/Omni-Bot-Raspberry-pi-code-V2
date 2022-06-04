@@ -23,5 +23,5 @@ def check(token, string):
         return False
 
 
-def dist(a, b):
+def dist(a, b): # only works with objects that have an x and y variable
     return math.sqrt(math.pow(a.x - b.x) + math.pow(a.y - b.y))
