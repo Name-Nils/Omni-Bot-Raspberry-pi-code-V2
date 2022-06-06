@@ -4,7 +4,7 @@ import camera
 import lidar
 import helper
 
-alphabetical = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNMqwertyuiopåasdfghjklöäzxcvbnm  "
+alphabetical = "QWERTYUIOPÅASDFGHJKLÖÄZXCVBNMqwertyuiopåasdfghjklöäzxcvbnm     "
 
 camera_stream = True
 lidar_stream = True
@@ -22,7 +22,8 @@ def main():
     global t
     if (lidar_stream):
         if time.time() - t > 0.5:
-            lidar_data = lidar.get_data()
+            server.send_queue.append("log " + str(move.pos.update()))
+            lidar_data = lidar.get_data(move.pos.update())
             lidar_data.cartesian()
             lidar_data.noise_point_grouping()
             server.send_queue.append("lidar " +  lidar_data.string())
@@ -34,7 +35,7 @@ def main():
             a = helper.command("A", alphabetical, data)
             s = helper.command("S", alphabetical, data)
             r = helper.command("R", alphabetical, data)
-            move.send("A" + str(a) + "S" + str(s) + "R" + str(r))
+            move.move(a, s, r)
         elif (helper.check("cam", data)):
             a = helper.command("A", "", data)
             camera.tilt(float(a))
