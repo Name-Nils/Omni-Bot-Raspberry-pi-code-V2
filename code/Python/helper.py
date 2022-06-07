@@ -24,4 +24,4 @@ def check(token, string):
 
 
 def dist(a, b): # only works with objects that have an x and y variable
-    return math.sqrt(math.pow(a.x - b.x) + math.pow(a.y - b.y))
+    return math.sqrt(math.pow(a.x - b.x, 2) + math.pow(a.y - b.y, 2))

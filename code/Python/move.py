@@ -36,8 +36,8 @@ class Pos:
         self.y.speed_change(y)
         self.r.speed_change(r)
     def speed_polar(self, a, s, r):
-        x = math.cos(math.pi / 180 * a) * s
-        y = math.sin(math.pi / 180 * a) * s
+        x = math.cos(a) * s
+        y = math.sin(a) * s
         self.speed(x,y,r)
     
     def update(self):
@@ -52,7 +52,7 @@ pos = Pos(DOF(0), DOF(0), DOF(0))
 
 
 ser = serial.Serial(
-    port='/dev/ttyACM0', #Replace ttyS0 with ttyAM0 for Pi1,Pi2,Pi0
+    port='/dev/ttyACM0', # arduino every port on the raspberry pi
     baudrate = 9600,
     parity=serial.PARITY_NONE,
     stopbits=serial.STOPBITS_ONE,
@@ -76,10 +76,11 @@ def move_str(string_):
 
 last_send = ""
 def move(a, s, r):
+    global last_send
     send = "A" + str(a)
     send += "S" + str(s)
     send += "R" + str(r)
     if (last_send == send): return
-    ser.write(send + "\n")
+    ser.write((send + "\n").encode("utf-8"))
     pos.speed_polar(a, s, r)
     last_send = send

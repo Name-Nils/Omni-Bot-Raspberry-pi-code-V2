@@ -22,7 +22,6 @@ def main():
     global t
     if (lidar_stream):
         if time.time() - t > 0.5:
-            server.send_queue.append("log " + str(move.pos.update()))
             lidar_data = lidar.get_data(move.pos.update())
             lidar_data.cartesian()
             lidar_data.noise_point_grouping()
@@ -35,7 +34,7 @@ def main():
             a = helper.command("A", alphabetical, data)
             s = helper.command("S", alphabetical, data)
             r = helper.command("R", alphabetical, data)
-            move.move(a, s, r)
+            move.move(float(a), float(s), float(r))
         elif (helper.check("cam", data)):
             a = helper.command("A", "", data)
             camera.tilt(float(a))
@@ -44,3 +43,4 @@ def main():
 
 while True:
     main()
+

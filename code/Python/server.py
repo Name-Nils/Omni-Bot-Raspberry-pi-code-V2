@@ -2,7 +2,7 @@ from simple_websocket_server import WebSocketServer, WebSocket
 from threading import Thread
 
 send_queue = []
-max_data_per_send = 2
+max_data_per_send = 1 # 1 message per comm is probably good enough and will lead to better communication in regards to the video feed
 receive_data = []
 
 class Comm(WebSocket):

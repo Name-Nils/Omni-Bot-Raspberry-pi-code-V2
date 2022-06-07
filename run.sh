@@ -6,4 +6,5 @@ while ! ifconfig | grep -F "192.168.8.117" > /dev/null; do
 done
 
 #sudo python /mnt/usb/code/Python/server.py
-sudo python /mnt/usb/code/Python/main.py #> /mnt/usb/Data/python.txt
+sudo python /mnt/usb/code/Python/main.py 
+#&> /mnt/usb/Data/python.txt

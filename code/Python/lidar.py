@@ -10,7 +10,7 @@ Obj.Connect()
 gen = Obj.StartScanning()
 
 def get_data(pos):
-    return Set(next(pos[0], pos[1], pos[2], gen))
+    return Set(pos[0], pos[1], pos[2],next(gen))
 
 
 class Point:
@@ -104,14 +104,23 @@ class Set:
 
         
 
-    def string(self):
+    def string(self, absolute=0):
         string = ""
         for point in self.points:
-            string += "X"
-            string += str(point.x)
-            string += " Y"
-            string += str(point.y)
-            string += " P"
-            string += str(point.acc)
-            string += ", "
+            if absolute == 0:
+                string += "X"
+                string += str(point.x)
+                string += " Y"
+                string += str(point.y)
+                string += " P"
+                string += str(point.acc)
+                string += ", "
+            else:
+                string += "X"
+                string += str(point.x + absolute[0])
+                string += " Y"
+                string += str(point.y + absolute[1])
+                string += " P"
+                string += str(point.acc)
+                string += ", "
         return string
